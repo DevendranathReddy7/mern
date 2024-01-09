@@ -6,8 +6,7 @@ const Dummy_places = [
     id: "p1",
     title: "Taj Mahal",
     description: "7th Wonder",
-    imageURL:
-      "https://th.bing.com/th?id=OLC.C8keJXqzbXfyYg480x360&w=210&h=140&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2",
+    imageURL: "https://source.unsplash.com/random/200x200?sig=2",
     address:
       "Dharmapuri, Forest Colony, Tajganj, Agra, Up, Agra, Uttar Pradesh 282001",
     location: {
@@ -18,10 +17,9 @@ const Dummy_places = [
   },
   {
     id: "p2",
-    title: "Taj Mahal",
+    title: "Taj Mahal 2",
     description: "7th Wonder",
-    imageURL:
-      "https://i1.wp.com/worldupclose.in/wp-content/uploads/2020/03/taj.jpg",
+    imageURL: "https://source.unsplash.com/random/200x200?sig=1",
     address:
       "Dharmapuri, Forest Colony, Tajganj, Agra, Up, Agra, Uttar Pradesh 282001",
     location: {
@@ -32,7 +30,7 @@ const Dummy_places = [
   },
   {
     id: "p3",
-    title: "Taj Mahal",
+    title: "Taj Mahal 3",
     description: "7th Wonder",
     imageURL:
       "https://blankinship-web.com/sabbatical01/India/Taj_Mahal/taj-21.jpg",
