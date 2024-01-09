@@ -40,7 +40,6 @@
   }
 
   .main-navigation__header-nav {
-    display: flex;
-    justify-content: space-around;
+    display: block;
   }
 }

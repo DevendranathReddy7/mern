@@ -1,55 +1,41 @@
-import { useParams } from "react-router-dom";
-import PlaceList from "../components/PlaceList";
+import React from 'react';
+import { useParams } from 'react-router-dom';
 
-const Dummy_places = [
+import PlaceList from '../components/PlaceList';
+
+const DUMMY_PLACES = [
   {
-    id: "p1",
-    title: "Taj Mahal",
-    description: "7th Wonder",
-    imageURL: "https://source.unsplash.com/random/200x200?sig=2",
-    address:
-      "Dharmapuri, Forest Colony, Tajganj, Agra, Up, Agra, Uttar Pradesh 282001",
+    id: 'p1',
+    title: 'Empire State Building',
+    description: 'One of the most famous sky scrapers in the world!',
+    imageUrl:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
+    address: '20 W 34th St, New York, NY 10001',
     location: {
-      lat: 27.173891,
-      lng: 78.042068,
+      lat: 40.7484405,
+      lng: -73.9878584
     },
-    creator: "u1",
+    creator: 'u1'
   },
   {
-    id: "p2",
-    title: "Taj Mahal 2",
-    description: "7th Wonder",
-    imageURL: "https://source.unsplash.com/random/200x200?sig=1",
-    address:
-      "Dharmapuri, Forest Colony, Tajganj, Agra, Up, Agra, Uttar Pradesh 282001",
+    id: 'p2',
+    title: 'Empire State Building',
+    description: 'One of the most famous sky scrapers in the world!',
+    imageUrl:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
+    address: '20 W 34th St, New York, NY 10001',
     location: {
-      lat: 27.173891,
-      lng: 78.042068,
+      lat: 40.7484405,
+      lng: -73.9878584
     },
-    creator: "u2",
-  },
-  {
-    id: "p3",
-    title: "Taj Mahal 3",
-    description: "7th Wonder",
-    imageURL:
-      "https://blankinship-web.com/sabbatical01/India/Taj_Mahal/taj-21.jpg",
-    address:
-      "Dharmapuri, Forest Colony, Tajganj, Agra, Up, Agra, Uttar Pradesh 282001",
-    location: {
-      lat: 27.173891,
-      lng: 78.042068,
-    },
-    creator: "u3",
-  },
+    creator: 'u2'
+  }
 ];
-const Userplaces = () => {
-  const currentUser = useParams().userid;
-  console.log(currentUser, typeof currentUser);
 
-  const filteredPlaces = Dummy_places.filter(
-    (place) => place.creator === currentUser
-  );
-  return <PlaceList items={filteredPlaces} />;
+const UserPlaces = () => {
+  const userId = useParams().userId;
+  const loadedPlaces = DUMMY_PLACES.filter(place => place.creator === userId);
+  return <PlaceList items={loadedPlaces} />;
 };
-export default Userplaces;
+
+export default UserPlaces;
