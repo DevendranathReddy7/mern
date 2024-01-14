@@ -1,60 +1,89 @@
 const HttpError = require("../Models/http-error");
 const uuid = require("uuid");
 const { validationResult } = require("express-validator");
+const User = require("../Models/users-schema.js");
 
-let USERS = [
-  {
-    id: "u1",
-    name: "Dev",
-    email: "test1@email.com",
-    password: "testing",
-  },
-  {
-    id: "u2",
-    name: "Devendra Reddy",
-    email: "test2@email.com",
-    password: "testing",
-  },
-];
-
-const getUsers = (req, res, next) => {
-  res.status(200).json({ user: USERS });
+const getUsers = async (req, res, next) => {
+  let users = "";
+  try {
+    users = await User.find({}, "-password");
+  } catch (err) {
+    const error = new HttpError("cant fetch the user at the momemnt", 500);
+    return next(error);
+  }
+  res
+    .status(200)
+    .json({ user: users.map((user) => user.toObject({ getters: true })) });
 };
 
-const loginUser = (req, res, next) => {
-  const errors = validationResult();
+const loginUser = async (req, res, next) => {
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    throw new HttpError("All fields are mandatory", 400);
+    console.log(errors);
+    return next(new HttpError("All fields are mandatory", 400));
   }
   const { email, password } = req.body;
-  const identifiedUser = USERS.find((user) => user.email === email);
-  if (!identifiedUser || identifiedUser.password !== password) {
-    throw new HttpError("Incorrect credentitals", 401);
+
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch (err) {
+    const error = new HttpError("Failed to login..please try again later", 500);
+    return next(error);
+  }
+
+  if (!existingUser || existingUser.password !== password) {
+    const error = new HttpError("Incorrect credentitals", 401);
+    return next(error);
   }
 
   res.status(200).json({ message: "Login Success!" });
 };
 
-const signUpUser = (req, res, next) => {
-  const errors = validationResult();
+const signUpUser = async (req, res, next) => {
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    throw new HttpError("All fields are mandatory", 400);
+    return next(new HttpError("All fields are mandatory", 400));
   }
   const { name, email, password } = req.body;
 
-  const hasUsers = USERS.find((u) => u.email === email);
-  if (hasUsers) {
-    throw new HttpError("Email already taken", 422);
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch (err) {
+    const error = new HttpError(
+      "Failed to add an account..please try again later",
+      500
+    );
+    return next(error);
   }
-  const newUser = {
-    id: uuid(),
+
+  if (existingUser) {
+    const error = new HttpError(
+      "Email already taken..please user other email or try login instead sigin",
+      500
+    );
+    return next(error);
+  }
+  const newUser = new User({
     name,
     email,
+    image: "",
     password,
-  };
-  USERS.push(newUser);
+    places: [],
+  });
 
-  res.status(201).json({ user: newUser });
+  try {
+    await newUser.save();
+  } catch (err) {
+    console.log(err);
+    const error = new HttpError(
+      "Something went wrong! Could not sign you in at the moment.",
+      500
+    );
+    return next(error);
+  }
+  res.status(201).json({ user: newUser.toObject({ getters: true }) });
 };
 
 exports.getUsers = getUsers;
