@@ -7,7 +7,10 @@ router.get("/", userControllers.getUsers);
 
 router.post(
   "/login",
-  [check("email").not().isEmail(), check("password").not().isEmpty()],
+  [
+    check("email").normalizeEmail().isEmail(),
+    check("password").not().isEmpty(),
+  ],
   userControllers.loginUser
 );
 

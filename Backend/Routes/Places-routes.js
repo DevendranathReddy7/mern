@@ -3,9 +3,9 @@ const placesControllers = require("../Controllers/Places-controller");
 const { check } = require("express-validator");
 const router = express.Router();
 
-router.get("/users/:uid", placesControllers.getPlaceById);
+router.get("/users/:uid", placesControllers.getPlaceByUserId);
 
-router.get("/:pid", placesControllers.getPlaceByUserId);
+router.get("/:pid", placesControllers.getPlaceById);
 
 router.post(
   "/",
