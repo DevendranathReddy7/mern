@@ -37,7 +37,7 @@ const loginUser = async (req, res, next) => {
     return next(error);
   }
 
-  res.status(200).json({ message: "Login Success!" });
+  res.status(200).json({ user: existingUser.toObject({ getters: true }) });
 };
 
 const signUpUser = async (req, res, next) => {

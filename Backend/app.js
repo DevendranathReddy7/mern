@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+var cors = require("cors");
 const app = express();
 
 const placesRoutes = require("./Routes/Places-routes.js");
@@ -16,6 +17,13 @@ app.use((req, res, next) => {
 
   next();
 });
+
+//OR
+
+// app.use(cors(), function (req, res, next) {
+//   res.json({ msg: "This is CORS-enabled for a Single Route" });
+//   next();
+// });
 app.use("/api/places", placesRoutes);
 
 app.use("/api/users", userRoutes);
